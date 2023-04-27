@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="description" content="PNHログイン">
+  <meta name="author" content="PNHログイン">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/plugins/jquery-ui/jquery-ui.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/stylesApp.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/fontawesome-6.1.0.js"></script>
+  <script src="/js/wanakana.min.js"></script>
+  <script src="/js/sweetalert2.all.min.js"></script>
+  <script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+  <script src="//ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+  <script src="//jpostal-1006.appspot.com/jquery.jpostal.js"></script>
+  <script src="/js/scripts.js"></script>
+  <script src="/js/custom.js"></script>
+  <title>Dashboard</title>
+</head>
+
+<body>
+  <header>
+    <%- include('./header') %>
+  </header>
+
+  <% if (auth.user.isAdmin) { %>
+  <%- include('../admin/index') %>
+  <% } else { %>
+  <%- include('../user/index') %>
+  <% } %>
+
+  <footer>
+    <%- include('./footer') %>
+  </footer>
+</body>
+
+</html>

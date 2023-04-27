@@ -1,0 +1,40 @@
+.width-120 {
+  width: 120px !important;
+}
+
+.table-input td {
+  text-align: right;
+}
+
+.required:before {
+  content: '※';
+  margin-right: 2px;
+  color: red;
+  font-weight: normal;
+}
+
+.postal {
+  display: flex;
+}
+
+.postal .form-control {
+  margin-right: 10px;
+  width: 100px;
+}
+
+.list-group-item {
+  cursor: pointer;
+  transition: background-color linear;
+}
+
+.list-group-item:hover {
+  background-color: rgb(148, 170, 173);
+}
+
+.not-allowed {
+  cursor: not-allowed;
+}
+
+.fixed-label {
+  width: 132px;
+}
