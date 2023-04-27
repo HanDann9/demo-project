@@ -10,6 +10,8 @@ $ npm install
 
 ### 1. Create database in mysql
 
+#### Config file .env from file .env.example
+
 ### 2. Running Migrations
 
 ```sh
