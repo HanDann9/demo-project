@@ -3,9 +3,9 @@
 const express = require('express')
 const router = express.Router()
 const AdminController = require('../app/controllers/AdminController')
-const { authAdmin, AdminValidator } = require('../middlewares')
+const { auth, AdminValidator } = require('../middlewares')
 
-router.get('/', authAdmin, AdminController.show)
+router.get('/', auth.admin, AdminController.show)
 router
   .route('/login')
   .get(AdminController.login)

@@ -34,7 +34,7 @@ const UserController = {
         })
       }
       const user = await User.findOne({
-        where: { email, actived: 1 },
+        where: { email: req.body.email, actived: 1 },
         attributes: ['id', 'email', 'password', 'role'],
       })
 
@@ -56,6 +56,7 @@ const UserController = {
         message: 'Login successful',
       })
     } catch (error) {
+      console.log(error)
       return res.status(500).send({ title: 'Notice', message: error.message })
     }
   },

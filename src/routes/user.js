@@ -2,11 +2,11 @@
 
 const express = require('express')
 const router = express.Router()
-const { authUser, UserValidator } = require('../middlewares')
+const { auth, UserValidator } = require('../middlewares')
 
 const UserController = require('../app/controllers/UserController')
 
-router.get('/', authUser, UserController.show)
+router.get('/', auth.user, UserController.show)
 router
   .route('/login')
   .get(UserController.login)

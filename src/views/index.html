@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+</head>
+
+<body>
+  <button onclick="sendmessage()">Send Message</button>
+  <button onclick="disconnect()">Disconnect</button>
+</body>
+<script>
+  const socket = new WebSocket('ws://localhost:8080')
+
+  socket.onmessage = ({
+    data
+  }) => {
+    console.log("Message from socket server: ", data)
+  };
+
+  const disconnect = () => {
+    socket.close()
+  }
+  const sendmessage = () => {
+    socket.send('Hello')
+  }
+</script>
+
+</html>
