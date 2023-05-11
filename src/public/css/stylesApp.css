@@ -1,16 +1,29 @@
-#chat2 .form-control {
-  border-color: transparent;
+.icon-status {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: #e38968;
+  margin-right: 6px;
 }
 
-#chat2 .form-control:focus {
-  border-color: transparent;
-  box-shadow: inset 0px 0px 0px 1px transparent;
+.icon-status.connected {
+  background-color: #86bb71;
 }
 
-.divider:after,
-.divider:before {
+.hr-sect {
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.35);
+  margin: 8px 0px;
+}
+.hr-sect:before,
+.hr-sect:after {
   content: '';
-  flex: 1;
+  flex-grow: 1;
+  background: rgba(0, 0, 0, 0.35);
   height: 1px;
-  background: #eee;
+  font-size: 0px;
+  line-height: 0px;
+  margin: 0px 8px;
 }
