@@ -3,38 +3,50 @@
     <div class="card mb-3">
       <div class="row g-0">
         <div class="col-md-4 border border-light rounded">
-          <div class="align-items-center border border-light bg-light m-1 me-2 rounded">
-            <h2>Chat</h2>
+          <div class="card-header align-items-center bg-light bg-gradient rounded">
+            <h2>
+              <b>Chat</b>
+            </h2>
           </div>
-          <ul class="list-group">
-            <li class="d-flex flex-row list-group-item align-items-center bg-light m-1 me-2 rounded">
+          <ul class="list-group overflow-auto" data-mdb-perfect-scrollbar="true" style="height: 550px;">
+            <li class="d-flex flex-row list-group-item a lign-items-center border border-light bg-secondary bg-gradient text-white rounded mb-1 btn" id="li-user">
               <div class="d-inline-flex position-relative me-2">
-                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle"></span>
+                <span class="position-absolute bottom-0 end-0 p-1 bg-danger bg-gradient border border-light rounded-circle status-icon-user"></span>
                 <img class="rounded-circle" src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg" alt="avatar 3" style="width: 40px; height: 40px;">
               </div>
               <div class="d-flex flex-column">
                 <span><b>User</b></span>
-                <span>Online</span>
+                <span class="status-user">Offline</span>
+              </div>
+            </li>
+            <li class="d-flex flex-row list-group-item align-items-center border border-light bg-light rounded mb-1 btn" id="li-manager">
+              <div class="d-inline-flex position-relative me-2">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-danger bg-gradient border border-light rounded-circle status-icon-manager"></span>
+                <img class="rounded-circle" src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg" alt="avatar 3" style="width: 40px; height: 40px;">
+              </div>
+              <div class="d-flex flex-column">
+                <span><b>Manager</b></span>
+                <span class="status-manager">Offline</span>
               </div>
             </li>
           </ul>
         </div>
         <div class="col-md-8">
-          <div class="card-header bg-info text-white d-flex flex-row align-items-center rounded">
+          <div class="card-header bg-light bg-gradient d-flex flex-row align-items-center rounded">
             <div class="d-inline-flex position-relative me-2">
-              <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle"></span>
-              <img class="rounded-circle" src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg" alt="Avatar" style="width: 50px; height: 50px;">
+              <span class="position-absolute bottom-0 end-0 p-1 bg-danger border border-light rounded-circle status-icon-user"></span>
+              <img class="rounded-circle" src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg" alt="Avatar" style="width: 45px; height: 45px;">
             </div>
             <div class="d-flex flex-column">
               <span><b>User</b></span>
-              <span>Online</span>
+              <span class="status-user">Offline</span>
             </div>
           </div>
-          <div class="card-body overflow-auto" data-mdb-perfect-scrollbar="true" id="chat" style="height: 500px;"> </div>
-          <form class="card-footer text-muted d-flex justify-content-start align-items-center p-3 rounded-3">
+          <div class="card-body overflow-auto" data-mdb-perfect-scrollbar="true" id="chat" style="height: 500px;"></div>
+          <form class="card-footer text-muted d-flex justify-content-start align-items-center p-2 rounded-3">
             <img class="rounded-circle me-2" src="https://i.pinimg.com/564x/f0/a3/44/f0a344551001f7ed0f3022c3abae2560.jpg" alt="avatar 3" style="width: 35px; height: 100%;">
-            <input type="text" class="form-control form-control-lg rounded-pill" id="msg" placeholder="Type message">
-            <button class="border border-light ms-2 bg-light" type="submit"><i class="fas fa-paper-plane"></i></i></button>
+            <input type="text" class="form-control form-control rounded-pill" id="msg" placeholder="Type message">
+            <button class="border border-light bg-light" type="submit"><i class="fas fa-paper-plane"></i></i></button>
           </form>
         </div>
       </div>
@@ -51,6 +63,18 @@
   };
 
   socket.connect();
+
+  socket.on('users', users => {
+    users.forEach(user => {
+      if ($(`.li-${user.username}`)) {
+        const statusIcon = user.connected ? 'bg-success' : 'bg-danger';
+        const status = user.connected ? 'Online' : 'Offline';
+
+        $(`.status-icon-${user.username}`).removeClass('bg-danger').addClass(statusIcon);
+        $(`.status-${user.username}`).text(status);
+      }
+    });
+  })
 
   // Join chatroom
   socket.emit('join room', {
@@ -77,7 +101,7 @@
   // Message from server
   socket.on('message', (data) => {
     if (data.username !== 'admin') {
-      const message = data.text;
+      const message = data.content;
       const lastChat = $('#chat > div:last');
 
       if (lastChat.attr('id') === 'receiver') {

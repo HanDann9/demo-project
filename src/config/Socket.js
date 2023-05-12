@@ -36,8 +36,11 @@ const Socket = (app) => {
       users.push({
         userID: id,
         username: socket.username,
+        connected: true,
       })
     }
+
+    socket.emit('users', users)
 
     socket.on('join room', ({ username, room }) => {
       const user = userJoin(socket.id, username, room)
@@ -74,7 +77,7 @@ const Socket = (app) => {
       const user = userLeave(socket.id)
 
       if (user) {
-        io.to(user.room).emit('user left chatroom', {
+        io.to(user.room).emit('left', {
           username: user.username,
           content: `${user.username} has left the chat`,
           time: moment().format('h:mm a'),
