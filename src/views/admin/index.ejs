@@ -1,44 +1,42 @@
 <section style="background-color: #eee;">
   <div class="container py-5">
-    <div class="card mb-3">
+    <div class="card">
       <div class="row g-0">
         <div class="col-md-4 border border-light rounded">
-          <div class="card-header align-items-center bg-light bg-gradient rounded">
-            <h2>
-              <b>Chat</b>
-            </h2>
+          <div class="card-header align-items-center border border-light bg-info bg-gradient text-white rounded">
+            <h2 class="fw-bold">Member</h2>
           </div>
-          <ul class="list-group overflow-auto" data-mdb-perfect-scrollbar="true" style="height: 550px;">
-            <li class="d-flex flex-row list-group-item a lign-items-center border border-light bg-secondary bg-gradient text-white rounded mb-1 btn" id="li-user">
-              <div class="d-inline-flex position-relative me-2">
-                <span class="position-absolute bottom-0 end-0 p-1 bg-danger bg-gradient border border-light rounded-circle status-icon-user"></span>
+          <div class="list-group list-group-light overflow-auto" data-mdb-perfect-scrollbar="true" style="height: 550px;">
+            <a href="#" class="d-flex flex-row list-group-item list-group-item-action list-group-item-dark align-items-center border border-light">
+              <div class="position-relative me-2">
                 <img class="rounded-circle" src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg" alt="avatar 3" style="width: 40px; height: 40px;">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-danger bg-gradient border border-light rounded-circle status-icon-user"></span>
               </div>
               <div class="d-flex flex-column">
-                <span><b>User</b></span>
+                <span class="fw-bold">User</span>
                 <span class="status-user">Offline</span>
               </div>
-            </li>
-            <li class="d-flex flex-row list-group-item align-items-center border border-light bg-light rounded mb-1 btn" id="li-manager">
-              <div class="d-inline-flex position-relative me-2">
-                <span class="position-absolute bottom-0 end-0 p-1 bg-danger bg-gradient border border-light rounded-circle status-icon-manager"></span>
+            </a>
+            <a href="#" class="d-flex flex-row list-group-item list-group-item-action align-items-center border border-light">
+              <div class="position-relative me-2">
                 <img class="rounded-circle" src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg" alt="avatar 3" style="width: 40px; height: 40px;">
+                <span class="position-absolute bottom-0 end-0 p-1 bg-danger bg-gradient border border-light rounded-circle status-icon-manager`"></span>
               </div>
               <div class="d-flex flex-column">
-                <span><b>Manager</b></span>
+                <span class="fw-bold">Manager</span>
                 <span class="status-manager">Offline</span>
               </div>
-            </li>
-          </ul>
+            </a>
+          </div>
         </div>
         <div class="col-md-8">
-          <div class="card-header bg-light bg-gradient d-flex flex-row align-items-center rounded">
+          <div class="card-header border border-light bg-light bg-gradient d-flex flex-row align-items-center rounded">
             <div class="d-inline-flex position-relative me-2">
-              <span class="position-absolute bottom-0 end-0 p-1 bg-danger border border-light rounded-circle status-icon-user"></span>
               <img class="rounded-circle" src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg" alt="Avatar" style="width: 45px; height: 45px;">
+              <span class="position-absolute bottom-0 end-0 p-1 bg-danger border border-light rounded-circle status-icon-user"></span>
             </div>
             <div class="d-flex flex-column">
-              <span><b>User</b></span>
+              <span class="fw-bold">User</span>
               <span class="status-user">Offline</span>
             </div>
           </div>
@@ -46,7 +44,7 @@
           <form class="card-footer text-muted d-flex justify-content-start align-items-center p-2 rounded-3">
             <img class="rounded-circle me-2" src="https://i.pinimg.com/564x/f0/a3/44/f0a344551001f7ed0f3022c3abae2560.jpg" alt="avatar 3" style="width: 35px; height: 100%;">
             <input type="text" class="form-control form-control rounded-pill" id="msg" placeholder="Type message">
-            <button class="border border-light bg-light" type="submit"><i class="fas fa-paper-plane"></i></i></button>
+            <button class="border border-light bg-light ms-1" type="submit"><i class="fas fa-paper-plane"></i></i></button>
           </form>
         </div>
       </div>
@@ -91,11 +89,11 @@
   })
 
   socket.on('joined', (user) => {
-    $('#chat').append(`<div class="hr-sect">${user.content}</div>`)
+    $('#chat').append(`<div class="hr-sect small">${user.content}</div>`)
   })
 
   socket.on('left', (user) => {
-    $('#chat').append(`<div class="hr-sect">${user.content}</div>`)
+    $('#chat').append(`<div class="hr-sect small">${user.content}</div>`)
   })
 
   // Message from server
@@ -105,15 +103,16 @@
       const lastChat = $('#chat > div:last');
 
       if (lastChat.attr('id') === 'receiver') {
-        $('#chat > div:last > #message-receiver').append(`<p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">${message}</p>`);
+        $('#chat > div:last > #message-receiver').append(`<p class="small p-2 ms-2 mb-1 text-break rounded-pill" style="background-color: #f5f6f7; max-width: max-content">${message}</p>`);
       } else {
         const messageHTML = `
           <div class="d-flex flex-row justify-content-start" id="receiver">
             <img class="rounded-circle" src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg" alt="avatar 1" style="width: 40px; height: 100%;">
-            <div class="w-75" id="message-receiver">
-              <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">${message}</p>
+            <div class="d-flex align-items-start flex-column w-75" id="message-receiver">
+              <p class="small p-2 ms-2 mb-1 rounded-pill text-break" style="background-color: #f5f6f7; max-width: max-content">${message}</p>
             </div>
           </div>
+          <p class="small ms-5 mb-3 rounded-pill text-muted">${data.time}</p>
         `;
 
         chatDiv.innerHTML += messageHTML;
@@ -142,15 +141,16 @@
     const lastChat = $('#chat > div:last');
 
     if (lastChat.attr('id') === 'sender') {
-      $('#chat > div:last > #message-sender').append(`<p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">${msg}</p>`);
+      $('#chat > div:last > #message-sender').append(`<p class="small p-2 me-2 mb-1 text-white rounded-pill bg-primary text-break" style="max-width: max-content">${msg}</p>`);
     } else {
       const messageHTML = `
-        <div class="d-flex flex-row justify-content-end mb-4 pt-1" id="sender">
-          <div class="w-75" id="message-sender">
-            <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">${msg}</p>
+        <div class="d-flex flex-row justify-content-end pt-1" id="sender">
+          <div class="d-flex align-items-end flex-column w-75" id="message-sender">
+            <p class="small p-2 me-2 mb-1 text-white rounded-pill bg-primary mw-50 text-break" style="max-width: max-content">${msg}</p>
           </div>
           <img class="rounded-circle" src="https://i.pinimg.com/564x/f0/a3/44/f0a344551001f7ed0f3022c3abae2560.jpg" alt="avatar 3" style="width: 40px; height: 100%;">
         </div>
+        <p class="small me-5 mt-0 mb-3 rounded-pill text-muted d-flex justify-content-end">${moment().format('h:mm a')}</p>
       `;
 
       chatDiv.innerHTML += messageHTML;
