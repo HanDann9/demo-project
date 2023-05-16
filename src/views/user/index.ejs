@@ -1,10 +1,10 @@
 <section style="background-color: #eee;">
-  <div class="container py-5">
+  <div class="container py-5" style="width: 62rem;">
     <div class="card mb-3">
       <div class="row g-0">
         <div class="col-md-4 border border-light rounded">
           <div class="card-header align-items-center border border-light bg-info bg-gradient text-white rounded">
-            <h2><b>Member</b></h2>
+            <h2 class="fw-bold">Member</h2>
           </div>
           <div class="list-group list-group-light overflow-auto" data-mdb-perfect-scrollbar="true" style="height: 550px;">
             <a href="#" class="d-flex flex-row list-group-item list-group-item-action list-group-item-dark align-items-center border border-light">
@@ -13,7 +13,7 @@
                 <span class="position-absolute bottom-0 end-0 p-1 bg-danger border border-light rounded-circle status-icon-admin"></span>
               </div>
               <div class="d-flex flex-column">
-                <span><b>Admin</b></span>
+                <span class="fw-bold">Admin</span>
                 <span class="status-admin">Offline</span>
               </div>
             </a>
@@ -23,7 +23,7 @@
                 <span class="position-absolute bottom-0 end-0 p-1 bg-danger bg-gradient border border-light rounded-circle status-icon-manager`"></span>
               </div>
               <div class="d-flex flex-column">
-                <span><b>Manager</b></span>
+                <span class="fw-bold">Manager</span>
                 <span class="status-manager">Offline</span>
               </div>
             </a>
@@ -36,7 +36,7 @@
               <span class="position-absolute bottom-0 end-0 p-1 bg-danger border border-light rounded-circle status-icon-admin"></span>
             </div>
             <div class="d-flex flex-column">
-              <span><b>Admin</b></span>
+              <span class="fw-bold">Admin</span>
               <span class="status-admin">Online</span>
             </div>
           </div>
@@ -98,22 +98,23 @@
 
   // Message from server
   socket.on('message', (data) => {
+    console.log(data);
     if (data.username !== 'user') {
-      console.log(data)
       const message = data.content;
       const lastChat = $('#chat > div:last');
 
       if (lastChat.attr('id') === 'receiver') {
-        $('#chat > div:last > #message-receiver').append(`<p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">${message}</p>`);
+        $('#chat > div:last > #message-receiver').append(`<p class="small p-2 ms-2 mb-1 text-break rounded-pill" style="background-color: #f5f6f7; max-width: max-content">${message}</p>`);
       } else {
         const messageHTML = `
-        <div class="d-flex flex-row justify-content-start" id="receiver">
-          <img class="rounded-circle" src="https://i.pinimg.com/564x/f0/a3/44/f0a344551001f7ed0f3022c3abae2560.jpg" alt="avatar 1" style="width: 40px; height: 100%;">
-          <div class="w-75" id="message-receiver">
-            <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">${message}</p>
+          <div class="d-flex flex-row justify-content-start" id="receiver">
+            <img class="rounded-circle" src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg" alt="avatar 1" style="width: 40px; height: 100%;">
+            <div class="d-flex align-items-start flex-column w-75" id="message-receiver">
+              <p class="small p-2 ms-2 mb-1 rounded-pill text-break" style="background-color: #f5f6f7; max-width: max-content">${message}</p>
+            </div>
           </div>
-        </div>
-      `;
+          <p class="small ms-5 mb-3 rounded-pill text-muted">${data.time}</p>
+        `;
 
         chatDiv.innerHTML += messageHTML;
       }
@@ -129,7 +130,6 @@
   form.addEventListener('submit', event => {
     event.preventDefault();
 
-    // Get the message from the input field
     let msg = event.target.elements.msg.value;
 
     msg = msg.trim();
@@ -142,15 +142,16 @@
     const lastChat = $('#chat > div:last');
 
     if (lastChat.attr('id') === 'sender') {
-      $('#chat > div:last > #message-sender').append(`<p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">${msg}</p>`);
+      $('#chat > div:last > #message-sender').append(`<p class="small p-2 me-2 mb-1 text-white rounded-pill bg-primary text-break" style="max-width: max-content">${msg}</p>`);
     } else {
       const messageHTML = `
-        <div class="d-flex flex-row justify-content-end mb-4 pt-1" id="sender">
-          <div class="w-75" id="message-sender">
-            <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">${msg}</p>
+        <div class="d-flex flex-row justify-content-end pt-1" id="sender">
+          <div class="d-flex align-items-end flex-column w-75" id="message-sender">
+            <p class="small p-2 me-2 mb-1 text-white rounded-pill bg-primary mw-50 text-break" style="max-width: max-content">${msg}</p>
           </div>
-          <img class="rounded-circle" src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg" alt="avatar 3" style="width: 40px; height: 100%;">
+          <img class="rounded-circle" src="https://i.pinimg.com/564x/f0/a3/44/f0a344551001f7ed0f3022c3abae2560.jpg" alt="avatar 3" style="width: 40px; height: 100%;">
         </div>
+        <p class="small me-5 mt-0 mb-3 rounded-pill text-muted d-flex justify-content-end">${moment().format('h:mm a')}</p>
       `;
 
       chatDiv.innerHTML += messageHTML;
