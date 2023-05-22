@@ -8,16 +8,19 @@ const auth = {
 
     if (!token) {
       console.log('Access token not found')
-      return res.redirect('/admin/login')
+      return res.redirect('/login')
     }
 
     jwToken.verify(token, (err, decoded) => {
-      if (err) {
+      const user = decode
+
+      // 1 is admin role
+      if (err || user.role != 1) {
         console.log('You do not have access to this feature')
-        return res.redirect('/admin/login')
+        return res.redirect('/login')
       }
 
-      res.locals.auth = { user: decoded }
+      res.locals.auth = { user }
       next()
     })
   },
@@ -27,16 +30,18 @@ const auth = {
 
     if (!token) {
       console.log('Access token not found')
-      return res.redirect('/user/login')
+      return res.redirect('/login')
     }
 
     jwToken.verify(token, (err, decoded) => {
+      const user = decoded
+
       if (err) {
         console.log('You do not have access to this feature')
-        return res.redirect('/admin/login')
+        return res.redirect('/login')
       }
 
-      res.locals.auth = { user: decoded }
+      res.locals.auth = { user }
       next()
     })
   },

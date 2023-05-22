@@ -24,12 +24,16 @@ module.exports = {
       actived: {
         type: Sequelize.INTEGER,
         defaultValue: 1,
-        comment: '1:Actived / 2:Locked',
+        comment: '0:Locked / 1:Actived',
       },
       role: {
         type: Sequelize.BOOLEAN,
         defaultValue: 1,
-        comment: '1:User / 2:Manager',
+        comment: '0:User / 1:Admin',
+      },
+      image: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

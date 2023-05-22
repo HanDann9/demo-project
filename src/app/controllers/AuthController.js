@@ -4,14 +4,9 @@ const { validationResult } = require('express-validator')
 const { User } = require('../models')
 const jwToken = require('../../utils/jwToken')
 
-const UserController = {
-  show: (req, res) => {
-    console.log('===== UserController.show => START ===== ')
-    return res.render('layouts/main')
-  },
-
+const AuthController = {
   login: async (req, res) => {
-    console.log('===== UserController.login => START ===== ')
+    console.log('===== AuthController.login => START ===== ')
 
     await jwToken.verify(req.session.accessUser, (err, payload) => {
       if (payload) {
@@ -19,11 +14,11 @@ const UserController = {
       }
     })
 
-    return res.render('user/login')
+    return res.render('auth/login')
   },
 
   handleLogin: async (req, res) => {
-    console.log('===== UserController.handleLogin => START ===== ')
+    console.log('===== AuthController.handleLogin => START ===== ')
     try {
       const { errors } = validationResult(req)
 
@@ -33,18 +28,18 @@ const UserController = {
           messages: errors,
         })
       }
+
       const user = await User.findOne({
         where: { email: req.body.email, actived: 1 },
-        attributes: ['id', 'email', 'password', 'role'],
+        attributes: ['id', 'name', 'email', 'role'],
       })
 
       const accessToken = jwToken.sign(
         {
           id: user.id,
+          name: user.name,
           email: user.email,
-          password: user.password,
           role: user.role,
-          isAdmin: false,
         },
         1000 * 60 * 60 * 12
       )
@@ -62,12 +57,12 @@ const UserController = {
   },
 
   logout: (req, res) => {
-    console.log('===== UserController.logout => START ===== ')
+    console.log('===== AuthController.logout => START ===== ')
 
     req.session.destroy()
 
-    return res.redirect('/user')
+    return res.redirect('/')
   },
 }
 
-module.exports = UserController
+module.exports = AuthController

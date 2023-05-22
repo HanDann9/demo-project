@@ -3,11 +3,8 @@
     <a class="navbar-brand" href="/"> PNH </a>
     <div class="d-flex">
       <% if (locals.auth?.user) { %>
-      <a class="navbar-brand"><%= auth.user.isAdmin ? 'Admin' : 'User' %></a>
-      <a class="btn btn-secondary" href="/<%= auth.user.isAdmin ? 'admin' : 'user' %>/logout"> Logout </a>
-      <% } else { %>
-      <a class="navbar-brand" href="/admin"> Admin </a>
-      <a class="navbar-brand" href="/user"> User </a>
+      <a class="navbar-brand"><%= auth.user.name %></a>
+      <a class="btn btn-secondary" href="/logout"> Logout </a>
       <% } %>
     </div>
   </div>

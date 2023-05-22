@@ -1,11 +1,11 @@
 'use strict'
 
-const AdminRouter = require('./admin')
-const UserRouter = require('./user')
+const AuthRouter = require('./auth')
+const ChatRouter = require('./chat')
 
 const routes = (app) => {
-  app.use('/admin', AdminRouter)
-  app.use('/user', UserRouter)
+  app.use('/', AuthRouter)
+  app.use('/', ChatRouter)
 }
 
 module.exports = routes

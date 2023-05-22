@@ -16,28 +16,45 @@ const Socket = (app) => {
   const io = new Server(server)
 
   io.use((socket, next) => {
-    const username = socket.handshake.auth.username
-
-    if (!username) {
+    const user = socket.handshake.auth.user
+    if (!user) {
       return next(new Error('invalid username'))
     }
 
-    socket.username = username
-
+    socket.user = user
     next()
   })
 
   // Run when client connects
-  io.on('connection', (socket) => {
+  io.of('/').on('connection', (socket) => {
     // fetch existing users
     const users = []
 
     for (let [id, socket] of io.of('/').sockets) {
       users.push({
-        userID: id,
-        username: socket.username,
+        id: socket.user.id,
+        socketId: id,
+        username: socket.user.name,
         connected: true,
       })
+    }
+
+    socket.emit('users', users)
+  })
+
+  io.of('/message').on('connection', (socket) => {
+    // fetch existing users
+    const users = []
+
+    for (let [id, socket] of io.of('/message').sockets) {
+      if (socket.user) {
+        users.push({
+          id: socket.user.id,
+          socketId: id,
+          username: socket.user.name,
+          connected: true,
+        })
+      }
     }
 
     socket.emit('users', users)

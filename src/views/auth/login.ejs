@@ -15,7 +15,7 @@
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/custom.js"></script>
   <script src="/js/sweetalert2.all.min.js"></script>
-  <title>Admin login</title>
+  <title>Login Chat</title>
 </head>
 
 <body>
@@ -30,8 +30,8 @@
                 <div class="card-body p-5">
                   <div class="text-center mb-4">
                   </div>
-                  <form action="/admin/login" method="post">
-                    <h3 class="text-center mb-5 pb-2 border-bottom border-primary text-nonbreak">Admin login</h3>
+                  <form action="/login" method="post">
+                    <h3 class="text-center mb-5 pb-2 border-bottom border-primary text-nonbreak">Login Chat</h3>
                     <div class="form-outline mb-3">
                       <label class="form-label text-nonbreak" for="email"><b>Email</b></label>
                       <input type="text" id="email" name="email" class="form-control" autocomplete="email">
@@ -71,7 +71,7 @@
             showConfirmButton: false,
             timer: 1500
           })
-          window.location.href = '/admin'
+          window.location.href = '/'
         },
         error: (error) => {
           switch (error.status) {
