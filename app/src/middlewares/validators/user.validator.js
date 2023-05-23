@@ -2,7 +2,7 @@
 
 const { body } = require('express-validator')
 const bcrypt = require('bcrypt')
-const { User } = require('../../app/models')
+const { User } = require('../../api/models')
 
 const comparePassword = async (email, password) => {
   const user = await User.findOne({

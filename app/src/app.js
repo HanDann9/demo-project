@@ -4,10 +4,14 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const sessions = require('express-session')
 const logger = require('morgan')
+const colors = require('colors')
 const oneDay = 1000 * 60 * 60 * 24
 
+const dotenv = require('dotenv')
+dotenv.config()
+const port = process.env.PORT || 3000
+
 const routes = require('./routes')
-const Socket = require('./config/Socket')
 
 app.use(
   sessions({
@@ -31,7 +35,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 // Routes init
 routes(app)
 
-// Socket init
-Socket(app)
-
-// app.listen(port, () => console.log(`App listening at http://localhost:${port}`))
+app.listen(port, () =>
+  console.log(`App listening at http://localhost:${port}`.yellow.bold)
+)
