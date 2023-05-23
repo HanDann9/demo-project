@@ -1,6 +1,6 @@
-const socket = window.location.pathname.includes('/message')
-  ? io('/message', { query: 'roomID=001' })
-  : io('/')
+import { io } from 'https://cdn.socket.io/4.4.1/socket.io.esm.min.js'
+
+const socket = io('ws://localhost:3000')
 
 socket.auth = { user }
 socket.connect()

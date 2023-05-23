@@ -7,6 +7,6 @@ const { auth } = require('../middlewares')
 const ChatController = require('../api/controllers/ChatController')
 
 router.get(['/', '/chat'], [auth.user], ChatController.show)
-router.get('/message', [auth.user], ChatController.showRoom)
+router.get('/message/:roomID', [auth.user], ChatController.showRoom)
 
 module.exports = router

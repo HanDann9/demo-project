@@ -5,7 +5,7 @@
 ### Usage
 
 ```sh
-$ npm install
+npm install
 ```
 
 ### 1. Create database in mysql
@@ -15,13 +15,13 @@ $ npm install
 ### 2. Running Migrations
 
 ```sh
-$ npx sequelize-cli db:migrate
+npx sequelize-cli db:migrate
 ```
 
 ### 3. Running Seeds
 
 ```sh
-$ npx sequelize-cli db:seed:all
+npx sequelize-cli db:seed:all
 ```
 
 ### 4. Start project

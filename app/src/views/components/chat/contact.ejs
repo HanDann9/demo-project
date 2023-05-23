@@ -6,7 +6,7 @@
     <% if (locals.users) { %> 
       <%  users.forEach(user => { %>
         <%if (user.id !== auth.user.id) { %>
-        <a href="/message?roomID=001" class="d-flex flex-row list-group-item list-group-item-action align-items-center border border-light user-<%= user.id %>">
+        <a href="/message/001" class="d-flex flex-row list-group-item list-group-item-action align-items-center border border-light user-<%= user.id %>">
           <div class="d-inline-flex position-relative me-2">
             <img class="rounded-circle" src="<%= user.image %>" alt="avatar 3" style="width: 40px; height: 40px;">
             <span class="position-absolute bottom-0 end-0 p-1 bg-danger bg-gradient border border-light rounded-circle status-icon-<%= user.id %>"></span>
@@ -21,12 +21,4 @@
     } %>
   </div>
 </div>
-
-<script>  
-  const user = {
-    id: '<%= auth.user.id %>',
-    name: '<%= auth.user.name %>'
-  }
-</script>
-<script src="/js/socket.js"></script>
 

@@ -17,19 +17,44 @@
       <button class="border border-light bg-light ms-1" type="submit"><i class="fas fa-paper-plane"></i></i></button>
     </form>
   </div>
+<% } %>
 
-  <script >
+<script type="module">
+  import { io } from 'https://cdn.socket.io/4.4.1/socket.io.esm.min.js'
+
+  const socket = io('ws://localhost:3000')
+  const roomID = window.location.pathname.split('/message/')[1]
+  const user = {
+    id: '<%= auth.user.id %>',
+    name: '<%= auth.user.name %>'
+  }
+
+  socket.auth = { user }
+  socket.connect()
+
+  socket.on('users', (users) => {
+    users.forEach((user) => {
+      if ($(`.user-${user.id}`)[0]) {
+        const statusIcon = user.connected ? 'bg-success' : 'bg-danger'
+        const status = user.connected ? 'Online' : 'Offline'
+
+        $(`.status-icon-${user.id}`).removeClass('bg-danger').addClass(statusIcon)
+        $(`.status-${user.id}`).text(status)
+
+        $(`.user-${user.id}`).addClass('list-group-item-info')
+      }
+    })
+  })
+
+  if (roomID) {
     // Join chatroom
     socket.emit('join room', {
-      username: '<%= auth.user.name %>',
-      room: '<%= roomID %>',
+      username: user.name,
+      room: roomID,
     })
 
     // Get room and user
-    socket.on('room users', ({
-      room,
-      user
-    }) => {
+    socket.on('room users', ({ room, user }) => {
       console.log( room, user);
     })
 
@@ -45,8 +70,7 @@
 
     // Message from server
     socket.on('message', (data) => {
-      console.log(data);
-      if (data.username !== 'user') {
+      if (data.username !== user.name) {
         const message = data.content;
         const lastChat = $('#chat > div:last');
 
@@ -113,5 +137,5 @@
       // Scroll to the bottom of the chat
       chatDiv.scrollTop = chatDiv.scrollHeight;
     });
-  </script>
-<% } %>
+  }
+</script>

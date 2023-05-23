@@ -1,6 +1,14 @@
 'use strict'
 
 const colors = require('colors')
+const moment = require('moment')
+
+const {
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  getRoomUsers,
+} = require('./utils/handleSocket')
 
 const io = require('socket.io')(3000, {
   cors: {
@@ -19,27 +27,11 @@ io.use((socket, next) => {
 })
 
 // Run when client connects
-io.of('/').on('connection', (socket) => {
+io.on('connection', (socket) => {
   // fetch existing users
   const users = []
 
   for (let [id, socket] of io.of('/').sockets) {
-    users.push({
-      id: socket.user.id,
-      socketId: id,
-      username: socket.user.name,
-      connected: true,
-    })
-  }
-
-  socket.emit('users', users)
-})
-
-io.of('/message').on('connection', (socket) => {
-  // fetch existing users
-  const users = []
-
-  for (let [id, socket] of io.of('/message').sockets) {
     if (socket.user) {
       users.push({
         id: socket.user.id,

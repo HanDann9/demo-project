@@ -16,7 +16,7 @@ const ChatController = {
 
     const users = await User.findAll()
     const user = await User.findOne({ where: { name: 'user' } })
-    const roomID = req.query.roomID
+    const roomID = req.param.roomID
 
     return res.render('layouts/main', { users, user, roomID })
   },
