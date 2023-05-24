@@ -42,6 +42,7 @@ const auth = {
       }
 
       res.locals.auth = { user }
+      req.auth = { user }
       next()
     })
   },

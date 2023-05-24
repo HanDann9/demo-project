@@ -1,12 +1,13 @@
 'use strict'
 
+const colors = require('colors')
 const { validationResult } = require('express-validator')
 const { User } = require('../models')
 const jwToken = require('../../utils/jwToken')
 
 const AuthController = {
   login: async (req, res) => {
-    console.log('===== AuthController.login => START ===== ')
+    console.log('===== AuthController.login => START ====='.blue.bold)
 
     await jwToken.verify(req.session.accessUser, (err, payload) => {
       if (payload) {
@@ -18,7 +19,7 @@ const AuthController = {
   },
 
   handleLogin: async (req, res) => {
-    console.log('===== AuthController.handleLogin => START ===== ')
+    console.log('===== AuthController.handleLogin => START ====='.blue.bold)
     try {
       const { errors } = validationResult(req)
 
@@ -57,7 +58,7 @@ const AuthController = {
   },
 
   logout: (req, res) => {
-    console.log('===== AuthController.logout => START ===== ')
+    console.log('===== AuthController.logout => START ====='.blue.bold)
 
     req.session.destroy()
 

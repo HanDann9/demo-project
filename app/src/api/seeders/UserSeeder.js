@@ -33,7 +33,6 @@ module.exports = {
         updatedAt: new Date(),
         deletedAt: null,
       },
-
       {
         id: nanoid(21),
         name: 'user',
