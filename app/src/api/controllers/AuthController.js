@@ -32,7 +32,7 @@ const AuthController = {
 
       const user = await User.findOne({
         where: { email: req.body.email, actived: 1 },
-        attributes: ['id', 'name', 'email', 'role'],
+        attributes: ['id', 'name', 'email', 'image', 'role'],
       })
 
       const accessToken = jwToken.sign(
@@ -40,6 +40,7 @@ const AuthController = {
           id: user.id,
           name: user.name,
           email: user.email,
+          image: user.image,
           role: user.role,
         },
         1000 * 60 * 60 * 12

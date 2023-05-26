@@ -15,6 +15,7 @@ const ChatController = {
 
   showRoom: async (req, res) => {
     console.log('===== AdminController.showRoom => START ====='.blue.bold)
+
     try {
       const users = await User.findAll()
       const roomID = req.params.roomID
@@ -25,18 +26,12 @@ const ChatController = {
           'senderID',
           'receiverID',
           'content',
-          [
-            Sequelize.fn(
-              'date_format',
-              Sequelize.col('createdAt'),
-              '%d-%m %h:%m'
-            ),
-            'createdAt',
-          ],
+          [Sequelize.fn('date_format', Sequelize.col('createdAt'), '%d-%m %h:%m'), 'createdAt'],
         ],
         where: { roomID: roomID },
         order: [['createdAt', 'ASC']],
       })
+
       const room = await Room.findOne({
         where: { [Op.not]: [{ userID: req.auth.user.id }] },
       })
