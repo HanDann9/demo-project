@@ -2,11 +2,7 @@
 <div class="col-md-8">
   <div class="card-header border border-light bg-light bg-gradient d-flex flex-row align-items-center rounded">
     <div class="d-inline-flex position-relative me-2">
-      <img
-        class="rounded-circle"
-        src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg"
-        alt="Avatar"
-        style="width: 45px; height: 45px" />
+      <img class="rounded-circle" src="<%= receiver.image %>" alt="Avatar" style="width: 45px; height: 45px" />
       <span
         class="position-absolute bottom-0 end-0 p-1 bg-danger border border-light rounded-circle status-icon-<%= receiver.id %>"></span>
     </div>
@@ -16,19 +12,8 @@
     </div>
   </div>
   <div class="card-body overflow-auto" data-mdb-perfect-scrollbar="true" id="chat" style="height: 500px">
+    <div class="hr-sect small"><%= messages[0].date %></div>
     <% messages.forEach(message => { if (message.senderID === auth.user.id) { %>
-    <div class="d-flex flex-row justify-content-start" id="receiver">
-      <img class="rounded-circle" src="<%= auth.user.image %>" alt="avatar 1" style="width: 40px; height: 100%" />
-      <div class="d-flex align-items-start flex-column w-75" id="message-receiver">
-        <p
-          class="small p-2 ms-2 mb-1 rounded-pill text-break"
-          style="background-color: #f5f6f7; max-width: max-content">
-          <%= message.content %>
-        </p>
-      </div>
-    </div>
-    <p class="small ms-5 mb-3 rounded-pill text-muted"><%= message.createdAt %></p>
-    <% } else { %>
     <div class="d-flex flex-row justify-content-end pt-1" id="sender">
       <div class="d-flex align-items-end flex-column w-75" id="message-sender">
         <p
@@ -37,19 +22,29 @@
           <%= message.content %>
         </p>
       </div>
-      <img class="rounded-circle" src="<%=  %>" alt="avatar 3" style="width: 40px; height: 100%" />
+      <img class="rounded-circle" src="<%= auth.user.image %>" alt="avatar 3" style="width: 40px; height: 100%" />
     </div>
-    <p class="small me-5 mt-0 mb-3 rounded-pill text-muted d-flex justify-content-end"><%= message.createdAt %></p>
+    <p class="small me-5 mt-0 mb-3 rounded-pill text-muted d-flex justify-content-end"><%= message.time %></p>
+    <% } else { %>
+    <div class="d-flex flex-row justify-content-start" id="receiver">
+      <img class="rounded-circle" src="<%= receiver.image %>" alt="avatar 1" style="width: 40px; height: 100%" />
+      <div class="d-flex align-items-start flex-column w-75" id="message-receiver">
+        <p
+          class="small p-2 ms-2 mb-1 rounded-pill text-break"
+          style="background-color: #f5f6f7; max-width: max-content">
+          <%= message.content %>
+        </p>
+      </div>
+    </div>
+    <p class="small ms-5 mb-3 rounded-pill text-muted"><%= message.time %></p>
     <% }}) %>
   </div>
   <form class="card-footer text-muted d-flex justify-content-start align-items-center p-2 rounded-3">
-    <img
-      class="rounded-circle me-2"
-      src="https://i.pinimg.com/564x/f0/a3/44/f0a344551001f7ed0f3022c3abae2560.jpg"
-      alt="avatar 3"
-      style="width: 35px; height: 100%" />
+    <img class="rounded-circle me-2" src="<%= auth.user.image %>" alt="avatar 3" style="width: 35px; height: 100%" />
     <input type="text" class="form-control form-control rounded-pill" id="msg" placeholder="Type message" />
-    <button class="border border-light bg-light ms-1" type="submit"><i class="fas fa-paper-plane"></i></button>
+    <button class="border border-light bg-light ms-1" type="submit">
+      <i class="fas fa-paper-plane"></i>
+    </button>
   </form>
 </div>
 <script>
@@ -141,7 +136,9 @@
     // When the form is submitted
     form.addEventListener('submit', (event) => {
       event.preventDefault()
-
+      const time = moment().format('h:mm a')
+      const date = moment().format('L')
+      console.log(time, date)
       let msg = event.target.elements.msg.value
 
       msg = msg.trim()
@@ -165,9 +162,7 @@
             </div>
             <img class="rounded-circle" src="https://i.pinimg.com/564x/f0/a3/44/f0a344551001f7ed0f3022c3abae2560.jpg" alt="avatar 3" style="width: 40px; height: 100%;">
           </div>
-          <p class="small me-5 mt-0 mb-3 rounded-pill text-muted d-flex justify-content-end">${moment().format(
-            'h:mm a'
-          )}</p>
+          <p class="small me-5 mt-0 mb-3 rounded-pill text-muted d-flex justify-content-end">${time}</p>
         `
 
         chatDiv.innerHTML += messageHTML
@@ -181,6 +176,25 @@
 
       // Scroll to the bottom of the chat
       chatDiv.scrollTop = chatDiv.scrollHeight
+      console.log(receiverID, roomID, msg, time, date)
+      $.ajax({
+        url: `/message/${roomID}`,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+          receiverID,
+          roomID,
+          content: msg,
+          time,
+          date,
+        },
+        success: async (result) => {
+          socket.emit('chat message', msg)
+        },
+        error: (error) => {
+          console.log(error)
+        },
+      })
     })
   }
 </script>

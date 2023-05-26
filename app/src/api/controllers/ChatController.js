@@ -20,14 +20,7 @@ const ChatController = {
       const users = await User.findAll()
       const roomID = req.params.roomID
       const messages = await Message.findAll({
-        attributes: [
-          'id',
-          'roomID',
-          'senderID',
-          'receiverID',
-          'content',
-          [Sequelize.fn('date_format', Sequelize.col('createdAt'), '%d-%m %h:%m'), 'createdAt'],
-        ],
+        attributes: ['id', 'roomID', 'senderID', 'receiverID', 'content', 'time', 'date'],
         where: { roomID: roomID },
         order: [['createdAt', 'ASC']],
       })
@@ -43,6 +36,25 @@ const ChatController = {
         receiver,
         messages,
         roomID,
+      })
+    } catch (error) {
+      console.log(colors.red.bold(error))
+    }
+  },
+
+  sendMessage: async (req, res) => {
+    console.log('===== AdminController.sendMessage => START ====='.blue.bold)
+
+    try {
+      const { receiverID, roomID, content, time, date } = req.body
+
+      Message.create({
+        roomID,
+        receiverID,
+        senderID: req.auth.user.id,
+        content,
+        time,
+        date,
       })
     } catch (error) {
       console.log(colors.red.bold(error))

@@ -27,6 +27,12 @@ module.exports = (sequelize, Sequelize) => {
       content: {
         type: Sequelize.STRING,
       },
+      time: {
+        type: Sequelize.STRING,
+      },
+      date: {
+        type: Sequelize.STRING,
+      },
     },
     {
       tableName: 'Messages',
