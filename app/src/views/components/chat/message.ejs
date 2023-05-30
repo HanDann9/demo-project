@@ -101,6 +101,7 @@
     })
 
     const chatDiv = document.getElementById('chat')
+    chatDiv.scrollTop = chatDiv.scrollHeight
 
     // Message from server
     socket.on('message', (data) => {

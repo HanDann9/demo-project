@@ -26,7 +26,7 @@ const ChatController = {
       })
 
       const room = await Room.findOne({
-        where: { [Op.not]: [{ userID: req.auth.user.id }] },
+        where: { [Op.not]: [{ userID: req.auth.user.id }], roomID },
       })
 
       const receiver = await User.findOne({ where: { id: room.userID } })
