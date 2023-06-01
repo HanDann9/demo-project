@@ -12,8 +12,15 @@
     </div>
   </div>
   <div class="card-body overflow-auto" data-mdb-perfect-scrollbar="true" id="chat" style="height: 500px">
-    <div class="hr-sect small"><%= messages[0].date %></div>
-    <% messages.forEach(message => { if (message.senderID === auth.user.id) { %>
+    <% messages.forEach(message => { %>
+    <!--  -->
+    <% arrDate.forEach((item) => { if (item === message.date) { %>
+    <div class="hr-sect small"><%= message.date %></div>
+    <% }}) %>
+    <!--  -->
+    <% arrDate = arrDate.filter((item) => item !== message.date) %>
+    <!--  -->
+    <% if (message.senderID === auth.user.id) { %>
     <div class="d-flex flex-row justify-content-end pt-1" id="sender">
       <div class="d-flex align-items-end flex-column w-75" id="message-sender">
         <p
@@ -114,15 +121,13 @@
             `<p class="small p-2 ms-2 mb-1 text-break rounded-pill" style="background-color: #f5f6f7; max-width: max-content">${message}</p>`
           )
         } else {
-          const messageHTML = `
-            <div class="d-flex flex-row justify-content-start" id="receiver">
-              <img class="rounded-circle" src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg" alt="avatar 1" style="width: 40px; height: 100%;">
-              <div class="d-flex align-items-start flex-column w-75" id="message-receiver">
-                <p class="small p-2 ms-2 mb-1 rounded-pill text-break" style="background-color: #f5f6f7; max-width: max-content">${message}</p>
-              </div>
-            </div>
-            <p class="small ms-5 mb-3 rounded-pill text-muted">${data.time}</p>
-          `
+          const messageHTML = ` <div class="d-flex flex-row justify-content-start" id="receiver">
+                                  <img class="rounded-circle" src="https://i.pinimg.com/564x/03/26/26/032626472f09ce0e02132a769cc2e559.jpg" alt="avatar 1" style="width: 40px; height: 100%;">
+                                  <div class="d-flex align-items-start flex-column w-75" id="message-receiver">
+                                    <p class="small p-2 ms-2 mb-1 rounded-pill text-break" style="background-color: #f5f6f7; max-width: max-content">${message}</p>
+                                  </div>
+                                </div>
+                                <p class="small ms-5 mb-3 rounded-pill text-muted">${data.time}</p> `
 
           chatDiv.innerHTML += messageHTML
         }
@@ -139,7 +144,7 @@
       event.preventDefault()
       const time = moment().format('h:mm a')
       const date = moment().format('L')
-      console.log(time, date)
+
       let msg = event.target.elements.msg.value
 
       msg = msg.trim()
@@ -156,15 +161,13 @@
           `<p class="small p-2 me-2 mb-1 text-white rounded-pill bg-primary text-break" style="max-width: max-content">${msg}</p>`
         )
       } else {
-        const messageHTML = `
-          <div class="d-flex flex-row justify-content-end pt-1" id="sender">
-            <div class="d-flex align-items-end flex-column w-75" id="message-sender">
-              <p class="small p-2 me-2 mb-1 text-white rounded-pill bg-primary mw-50 text-break" style="max-width: max-content">${msg}</p>
-            </div>
-            <img class="rounded-circle" src="https://i.pinimg.com/564x/f0/a3/44/f0a344551001f7ed0f3022c3abae2560.jpg" alt="avatar 3" style="width: 40px; height: 100%;">
-          </div>
-          <p class="small me-5 mt-0 mb-3 rounded-pill text-muted d-flex justify-content-end">${time}</p>
-        `
+        const messageHTML = ` <div class="d-flex flex-row justify-content-end pt-1" id="sender">
+                                <div class="d-flex align-items-end flex-column w-75" id="message-sender">
+                                  <p class="small p-2 me-2 mb-1 text-white rounded-pill bg-primary mw-50 text-break" style="max-width: max-content">${msg}</p>
+                                </div>
+                                <img class="rounded-circle" src="https://i.pinimg.com/564x/f0/a3/44/f0a344551001f7ed0f3022c3abae2560.jpg" alt="avatar 3" style="width: 40px; height: 100%;">
+                              </div>
+                              <p class="small me-5 mt-0 mb-3 rounded-pill text-muted d-flex justify-content-end">${time}</p> `
 
         chatDiv.innerHTML += messageHTML
       }

@@ -30,11 +30,13 @@ const ChatController = {
       })
 
       const receiver = await User.findOne({ where: { id: room.userID } })
+      const arrDate = messages.map((item) => item.date).filter((item, index, arr) => arr.indexOf(item) === index)
 
       return res.render('layouts/main', {
         users,
         receiver,
         messages,
+        arrDate,
         roomID,
       })
     } catch (error) {
